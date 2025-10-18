@@ -10,6 +10,10 @@ from sqlalchemy import Integer, String, Text, ForeignKey
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
 # Import your forms from the forms.py
 from forms import LoginForm, RegisterForm, CreatePostForm, CommentForm
 
@@ -21,14 +25,11 @@ Open the Terminal in PyCharm (bottom left).
 On Windows type:
 python -m pip install -r requirements.txt
 
-On MacOS type:
-pip3 install -r requirements.txt
-
 This will install the packages from the requirements.txt for this project.
 '''
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.getenv("SECRET_PASSWORD")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
@@ -43,7 +44,7 @@ def load_user(user_id):
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///updated_posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -254,4 +255,4 @@ def contact():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=False, port=5002)
