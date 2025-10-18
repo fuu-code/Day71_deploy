@@ -33,6 +33,13 @@ app.config['SECRET_KEY'] = os.environ.get("SECRET_PASSWORD")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
+
+if os.environ.get("LOCAL") == "True":
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///updated_posts.db'
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+ 
+
 # TODO: Configure Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -44,7 +51,7 @@ def load_user(user_id):
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
