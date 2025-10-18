@@ -29,7 +29,7 @@ This will install the packages from the requirements.txt for this project.
 '''
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv("SECRET_PASSWORD")
+app.config['SECRET_KEY'] = os.environ.get("SECRET_PASSWORD")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
@@ -44,7 +44,7 @@ def load_user(user_id):
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
